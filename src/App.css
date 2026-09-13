@@ -648,3 +648,28 @@ button {
     padding: 14px;
   }
 }
+/* ========================================
+   FLOATING CLICK BUTTON
+   Follows scroll
+   ======================================== */
+
+.paper-button {
+  position: fixed;
+
+  bottom: 24px;
+  left: 50%;
+
+  transform: translateX(-50%) rotate(-1deg);
+
+  margin-top: 0;
+
+  z-index: 2500;
+}
+
+.paper-button:hover {
+  transform: translateX(-50%) rotate(1deg) scale(1.04);
+}
+
+.paper-button:active {
+  transform: translateX(-50%) rotate(-1deg) translateY(3px);
+}
