@@ -8,11 +8,11 @@ function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const [tool, setTool] = useState<Tool>('pen')
- const [penActive, setPenActive] = useState(false)
- const [penSize, setPenSize] = useState(3)
- const [eraserSize, setEraserSize] = useState(20)
- const [isDrawing, setIsDrawing] = useState(false)
- const [toolsMinimized, setToolsMinimized] = useState(false)
+  const [penActive, setPenActive] = useState(false)
+  const [penSize, setPenSize] = useState(3)
+  const [eraserSize, setEraserSize] = useState(20)
+  const [isDrawing, setIsDrawing] = useState(false)
+  const [toolsMinimized, setToolsMinimized] = useState(false)
 
   // Make the drawing canvas cover the ENTIRE webpage
   useEffect(() => {
@@ -23,11 +23,33 @@ function App() {
       const width = window.innerWidth
       const height = document.documentElement.scrollHeight
 
+      // Skip if the size hasn't actually changed.
+      // This avoids wiping the drawing when mobile browsers
+      // fire resize events during scrolling.
+      if (canvas.width === width && canvas.height === height) return
+
+      // Save the current drawing before resizing.
+      // Resizing the canvas clears it.
+      const dataUrl = canvas.toDataURL()
+
       canvas.width = width
       canvas.height = height
 
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
+
+      // Restore the drawing onto the resized canvas.
+      const ctx = canvas.getContext('2d')
+
+      if (ctx) {
+        const img = new Image()
+
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0)
+        }
+
+        img.src = dataUrl
+      }
     }
 
     resizeCanvas()
@@ -193,7 +215,7 @@ function App() {
                   className={tool === 'pen' ? 'tool-selected' : ''}
                   onClick={() => setTool('pen')}
                 >
-                   Pen
+                  Pen
                 </button>
 
                 <button
