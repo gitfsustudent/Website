@@ -1,38 +1,1473 @@
-.App {
-  text-align: center;
+/* ========================================
+   SCRATCH PAPER BACKGROUND
+   ======================================== */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background-color: #d9c8be;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(70, 50, 40, 0.025) 0px,
+      rgba(70, 50, 40, 0.025) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(70, 50, 40, 0.02) 0px,
+      rgba(70, 50, 40, 0.02) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+
+  color: #2b2420;
+
+  font-family: "Ink Free", cursive;
 }
 
-.App-logo {
-  height: 40vmin;
+
+/* ========================================
+   HANDWRITTEN FONT
+   ======================================== */
+
+h1,
+h2,
+h3,
+p,
+button,
+label,
+li,
+select,
+input {
+  font-family: "Ink Free", cursive;
+}
+
+
+/* ========================================
+   HOME / INTRO
+   ======================================== */
+
+#center {
+  min-height: 90vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 80px 20px;
+
+  box-sizing: border-box;
+}
+
+
+/* ========================================
+   MAIN HEADING
+   ======================================== */
+
+h1 {
+  font-size: 48px;
+
+  margin: 20px 0 10px;
+
+  font-weight: normal;
+}
+
+
+/* ========================================
+   PARAGRAPHS
+   ======================================== */
+
+p {
+  font-size: 24px;
+
+  margin-top: 5px;
+
+  line-height: 1.6;
+}
+
+
+/* ========================================
+   HAND-DRAWN CLICK BUTTON
+   ======================================== */
+
+.paper-button {
+  position: relative;
+
+  z-index: 3001;
+
+  margin-top: 25px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 28px;
+  font-weight: normal;
+
+  color: #2b2420;
+
+  background: #d9c8be;
+
+  border: 2px solid #2b2420;
+
+  border-radius: 12px;
+
+  padding: 10px 32px;
+
+  cursor: pointer;
+
+  box-shadow:
+    3px 3px 0 #2b2420;
+
+  transform: rotate(-1deg);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+/* Extra hand-drawn border */
+
+.paper-button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 4px;
+  left: 4px;
+
+  right: -5px;
+  bottom: -5px;
+
+  border: 1px solid #2b2420;
+
+  border-radius: 10px;
+
+  transform: rotate(1deg);
+
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+/* Hover */
+
+.paper-button:hover {
+  transform: rotate(1deg) scale(1.04);
+
+  box-shadow:
+    5px 5px 0 #2b2420;
 }
 
-.App-header {
-  background-color: #282c34;
+
+/* Press */
+
+.paper-button:active {
+  transform: rotate(-1deg) translateY(3px);
+
+  box-shadow:
+    1px 1px 0 #2b2420;
+}
+
+
+/* ========================================
+   SECTION SPACING
+   ======================================== */
+
+.content-section {
+  width: 85%;
+  max-width: 900px;
+
+  margin: 120px auto;
+
+  padding: 50px;
+
+  box-sizing: border-box;
+
+  text-align: left;
+
+  background: rgba(217, 200, 190, 0.35);
+
+  border: 2px solid #2b2420;
+
+  border-radius: 8px;
+
+  box-shadow:
+    5px 6px 0 rgba(43, 36, 32, 0.18);
+
+  transform: rotate(-0.4deg);
+}
+
+
+/* Alternate sections tilt the other direction */
+
+.content-section:nth-of-type(even) {
+  transform: rotate(0.5deg);
+}
+
+
+/* ========================================
+   SECTION HEADINGS
+   ======================================== */
+
+.content-section h2 {
+  font-size: 42px;
+
+  font-weight: normal;
+
+  margin-top: 0;
+
+  margin-bottom: 25px;
+
+  padding-bottom: 10px;
+
+  border-bottom: 2px dashed #2b2420;
+}
+
+
+.content-section h3 {
+  font-size: 28px;
+
+  font-weight: normal;
+
+  margin-top: 25px;
+
+  margin-bottom: 10px;
+}
+
+
+/* ========================================
+   SECTION TEXT
+   ======================================== */
+
+.content-section p {
+  font-size: 21px;
+
+  line-height: 1.7;
+
+  margin-bottom: 18px;
+}
+
+
+/* ========================================
+   SECTION LISTS
+   ======================================== */
+
+.content-section ul {
+  font-family: "Ink Free", cursive;
+
+  font-size: 20px;
+
+  line-height: 1.8;
+
+  padding-left: 35px;
+}
+
+
+.content-section li {
+  margin-bottom: 12px;
+}
+
+
+/* ========================================
+   DRAWING CANVAS
+   ======================================== */
+
+.drawing-canvas {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  z-index: 1000;
+
+  pointer-events: none;
+}
+
+
+.drawing-canvas.pen-active {
+  pointer-events: auto;
+
+  cursor: crosshair;
+}
+
+
+/* ========================================
+   DRAWING TOOLBAR
+   ======================================== */
+
+.drawing-toolbar {
+  position: fixed;
+
+  top: 20px;
+  right: 20px;
+
+  width: 230px;
+
+  z-index: 3000;
+
+  padding: 18px;
+
+  background: #d9c8be;
+
+  border: 2px solid #2b2420;
+
+  border-radius: 8px;
+
+  box-shadow:
+    4px 5px 0 rgba(43, 36, 32, 0.3);
+
+  transform: rotate(1deg);
+
+  font-family: "Ink Free", cursive;
+}
+
+
+/* Toolbar title */
+
+.toolbar-title {
+  font-size: 24px;
+
+  margin-bottom: 12px;
+
+  padding-bottom: 6px;
+
+  border-bottom: 1px dashed #2b2420;
+}
+
+
+/* ========================================
+   PEN / ERASER BUTTONS
+   ======================================== */
+
+.tool-buttons {
+  display: flex;
+
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+
+.tool-buttons button {
+  flex: 1;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 17px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: 1px solid #2b2420;
+
+  border-radius: 5px;
+
+  padding: 6px;
+
+  cursor: pointer;
+}
+
+
+.tool-buttons button:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+
+
+.tool-buttons .tool-selected {
+  background: rgba(43, 36, 32, 0.15);
+
+  box-shadow:
+    inset 0 0 0 1px #2b2420;
+}
+
+
+/* ========================================
+   DRAWING LABELS
+   ======================================== */
+
+.drawing-toolbar label {
+  display: block;
+
+  font-size: 18px;
+
+  margin-top: 10px;
+
+  margin-bottom: 5px;
+}
+
+
+/* ========================================
+   SIZE SLIDERS
+   ======================================== */
+
+.drawing-toolbar input[type="range"] {
+  width: 100%;
+
+  cursor: pointer;
+}
+
+
+/* ========================================
+   ERASE EVERYTHING
+   ======================================== */
+
+.erase-all {
+  width: 100%;
+
+  margin-top: 14px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 18px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: 1px dashed #2b2420;
+
+  border-radius: 5px;
+
+  padding: 7px;
+
+  cursor: pointer;
+}
+
+
+.erase-all:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+
+
+/* ========================================
+   PUT PEN AWAY
+   ======================================== */
+
+.put-away {
+  width: 100%;
+
+  margin-top: 8px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 18px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: none;
+
+  padding: 5px;
+
+  cursor: pointer;
+}
+
+
+.put-away:hover {
+  text-decoration: underline;
+}
+
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 700px) {
+
+  #center {
+    padding: 60px 15px;
+  }
+
+
+  h1 {
+    font-size: 38px;
+  }
+
+
+  p {
+    font-size: 20px;
+  }
+
+
+  .content-section {
+    width: 90%;
+
+    margin: 90px auto;
+
+    padding: 30px;
+  }
+
+
+  .content-section h2 {
+    font-size: 34px;
+  }
+
+
+  .content-section h3 {
+    font-size: 25px;
+  }
+
+
+  .content-section p {
+    font-size: 19px;
+  }
+
+
+  .content-section ul {
+    font-size: 18px;
+
+    padding-left: 25px;
+  }
+
+
+  .drawing-toolbar {
+    top: 10px;
+    right: 10px;
+
+    width: 200px;
+
+    padding: 14px;
+  }
+
+}
+/* =========================
+   SCRATCH PAPER BACKGROUND
+   ========================= */
+
+body {
+  margin: 0;
   min-height: 100vh;
+
+  /* Color sampled to match your drawing's paper */
+  background-color: #d9c8be;
+
+  /* Subtle paper/scratch texture */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(70, 50, 40, 0.025) 0px,
+      rgba(70, 50, 40, 0.025) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(70, 50, 40, 0.02) 0px,
+      rgba(70, 50, 40, 0.02) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+
+  color: #2b2420;
+
+  /* Handwritten font */
+  font-family: "Ink Free", cursive;
+}
+
+
+/* =========================
+   MAKE EVERYTHING HANDWRITTEN
+   ========================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+button,
+a,
+li,
+input,
+textarea {
+  font-family: "Ink Free", cursive;
+}
+
+
+/* =========================
+   MAIN HOMEPAGE
+   ========================= */
+
+.homepage {
+  min-height: 100vh;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+  text-align: center;
+
+  padding: 40px;
+  box-sizing: border-box;
 }
 
-.App-link {
-  color: #61dafb;
+
+/* =========================
+   YOUR DRAWING
+   ========================= */
+
+.portrait {
+  width: 250px;
+  height: auto;
+
+  border-radius: 4px;
+
+  /* Gives it a slight handmade/photo effect */
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.15);
+
+  margin-bottom: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+/* =========================
+   TITLE
+   ========================= */
+
+h1 {
+  font-size: 48px;
+  margin: 10px 0;
+
+  font-weight: normal;
+}
+
+
+/* =========================
+   PARAGRAPH
+   ========================= */
+
+p {
+  font-size: 24px;
+  margin-top: 5px;
+}
+
+
+/* =========================
+   LINKS
+   ========================= */
+
+a {
+  color: #2b2420;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================
+   HANDWRITTEN BUTTON
+   ========================= */
+
+button {
+  background: transparent;
+
+  border: 2px solid #2b2420;
+  border-radius: 8px;
+
+  padding: 10px 20px;
+
+  font-size: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+/* =========================
+   HAND-DRAWN PAPER BUTTON
+   ========================= */
+
+.paper-button {
+  position: relative;
+  z-index: 1002;
+
+  margin-top: 25px;
+
+  font-family: "Ink Free", cursive;
+  font-size: 28px;
+  font-weight: normal;
+
+  color: #2b2420;
+  background: #d9c8be;
+
+  border: 2px solid #2b2420;
+  border-radius: 12px;
+
+  padding: 10px 32px;
+
+  cursor: pointer;
+
+  /* Gives it the sketched button look */
+  box-shadow:
+    3px 3px 0 #2b2420;
+
+  transform: rotate(-1deg);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+/* Extra hand-drawn border */
+
+.paper-button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 4px;
+  left: 4px;
+
+  right: -5px;
+  bottom: -5px;
+
+  border: 1px solid #2b2420;
+  border-radius: 10px;
+
+  transform: rotate(1deg);
+
+  pointer-events: none;
+}
+
+
+/* Hover */
+
+.paper-button:hover {
+  transform: rotate(1deg) scale(1.04);
+
+  box-shadow:
+    5px 5px 0 #2b2420;
+}
+
+
+/* Press */
+
+.paper-button:active {
+  transform: rotate(-1deg) translateY(3px);
+
+  box-shadow:
+    1px 1px 0 #2b2420;
+}
+
+
+/* =========================
+   DRAWING CANVAS
+   ========================= */
+
+.drawing-canvas {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1000;
+
+  pointer-events: none;
+}
+
+
+/* Turn drawing on */
+
+.drawing-canvas.pen-active {
+  pointer-events: auto;
+
+  cursor: crosshair;
+}
+
+
+/* =========================
+   PEN INDICATOR
+   ========================= */
+
+.pen-indicator {
+  position: fixed;
+
+  top: 20px;
+  right: 20px;
+
+  z-index: 1003;
+
+  font-family: "Ink Free", cursive;
+  font-size: 22px;
+
+  color: #2b2420;
+
+  background: #d9c8be;
+
+  border: 1px solid #2b2420;
+  border-radius: 6px;
+
+  padding: 6px 12px;
+
+  transform: rotate(2deg);
+}
+
+
+/* =========================
+   ERASE BUTTON
+   ========================= */
+
+.clear-button {
+  position: relative;
+  z-index: 1002;
+
+  margin-top: 12px;
+
+  font-family: "Ink Free", cursive;
+  font-size: 20px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: 1px dashed #2b2420;
+  border-radius: 5px;
+
+  padding: 6px 16px;
+
+  cursor: pointer;
+}
+
+.clear-button:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+/* =========================
+   DRAWING CANVAS
+   ========================= */
+
+.drawing-canvas {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  z-index: 1000;
+
+  pointer-events: none;
+}
+
+.drawing-canvas.pen-active {
+  pointer-events: auto;
+
+  cursor: crosshair;
+}
+
+
+/* =========================
+   DRAWING TOOLBAR
+   ========================= */
+
+.drawing-toolbar {
+  position: fixed;
+
+  top: 20px;
+  right: 20px;
+
+  width: 230px;
+
+  z-index: 2000;
+
+  padding: 18px;
+
+  background: #d9c8be;
+
+  border: 2px solid #2b2420;
+  border-radius: 8px;
+
+  box-shadow:
+    4px 5px 0 rgba(43, 36, 32, 0.3);
+
+  transform: rotate(1deg);
+
+  font-family: "Ink Free", cursive;
+}
+
+
+/* Toolbar title */
+
+.toolbar-title {
+  font-size: 24px;
+
+  margin-bottom: 12px;
+
+  border-bottom: 1px dashed #2b2420;
+
+  padding-bottom: 6px;
+}
+
+
+/* =========================
+   TOOL BUTTONS
+   ========================= */
+
+.tool-buttons {
+  display: flex;
+
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.tool-buttons button {
+  flex: 1;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 17px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: 1px solid #2b2420;
+
+  border-radius: 5px;
+
+  padding: 6px;
+
+  cursor: pointer;
+}
+
+.tool-buttons button:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+
+.tool-buttons .tool-selected {
+  background: rgba(43, 36, 32, 0.15);
+
+  box-shadow:
+    inset 0 0 0 1px #2b2420;
+}
+
+
+/* =========================
+   LABELS
+   ========================= */
+
+.drawing-toolbar label {
+  display: block;
+
+  font-size: 18px;
+
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+
+/* =========================
+   SLIDERS
+   ========================= */
+
+.drawing-toolbar input[type="range"] {
+  width: 100%;
+
+  cursor: pointer;
+}
+
+
+/* =========================
+   ERASE EVERYTHING
+   ========================= */
+
+.erase-all {
+  width: 100%;
+
+  margin-top: 14px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 18px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: 1px dashed #2b2420;
+
+  border-radius: 5px;
+
+  padding: 7px;
+
+  cursor: pointer;
+}
+
+.erase-all:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+
+
+/* =========================
+   PUT PEN AWAY
+   ========================= */
+
+.put-away {
+  width: 100%;
+
+  margin-top: 8px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 18px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: none;
+
+  padding: 5px;
+
+  cursor: pointer;
+}
+
+.put-away:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================
+   PAPER CLICK BUTTON
+   ========================= */
+
+.paper-button {
+  position: relative;
+
+  z-index: 2001;
+
+  margin-top: 25px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 28px;
+  font-weight: normal;
+
+  color: #2b2420;
+
+  background: #d9c8be;
+
+  border: 2px solid #2b2420;
+
+  border-radius: 12px;
+
+  padding: 10px 32px;
+
+  cursor: pointer;
+
+  box-shadow:
+    3px 3px 0 #2b2420;
+
+  transform: rotate(-1deg);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+/* Extra hand-drawn line */
+
+.paper-button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 4px;
+  left: 4px;
+
+  right: -5px;
+  bottom: -5px;
+
+  border: 1px solid #2b2420;
+
+  border-radius: 10px;
+
+  transform: rotate(1deg);
+
+  pointer-events: none;
+}
+
+
+/* Hover */
+
+.paper-button:hover {
+  transform: rotate(1deg) scale(1.04);
+
+  box-shadow:
+    5px 5px 0 #2b2420;
+}
+
+
+/* Press */
+
+.paper-button:active {
+  transform: rotate(-1deg) translateY(3px);
+
+  box-shadow:
+    1px 1px 0 #2b2420;
+}
+
+/* =========================
+   DRAWING CANVAS
+   ========================= */
+
+.drawing-canvas {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  z-index: 1000;
+
+  pointer-events: none;
+}
+
+.drawing-canvas.pen-active {
+  pointer-events: auto;
+
+  cursor: crosshair;
+}
+
+
+/* =========================
+   DRAWING TOOLBAR
+   ========================= */
+
+.drawing-toolbar {
+  position: fixed;
+
+  top: 20px;
+  right: 20px;
+
+  width: 230px;
+
+  z-index: 2000;
+
+  padding: 18px;
+
+  background: #d9c8be;
+
+  border: 2px solid #2b2420;
+  border-radius: 8px;
+
+  box-shadow:
+    4px 5px 0 rgba(43, 36, 32, 0.3);
+
+  transform: rotate(1deg);
+
+  font-family: "Ink Free", cursive;
+}
+
+
+/* Toolbar title */
+
+.toolbar-title {
+  font-size: 24px;
+
+  margin-bottom: 12px;
+
+  border-bottom: 1px dashed #2b2420;
+
+  padding-bottom: 6px;
+}
+
+
+/* =========================
+   TOOL BUTTONS
+   ========================= */
+
+.tool-buttons {
+  display: flex;
+
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.tool-buttons button {
+  flex: 1;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 17px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: 1px solid #2b2420;
+
+  border-radius: 5px;
+
+  padding: 6px;
+
+  cursor: pointer;
+}
+
+.tool-buttons button:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+
+.tool-buttons .tool-selected {
+  background: rgba(43, 36, 32, 0.15);
+
+  box-shadow:
+    inset 0 0 0 1px #2b2420;
+}
+
+
+/* =========================
+   LABELS
+   ========================= */
+
+.drawing-toolbar label {
+  display: block;
+
+  font-size: 18px;
+
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+
+/* =========================
+   DROPDOWN
+   ========================= */
+
+.drawing-toolbar select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 17px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: 1px solid #2b2420;
+
+  border-radius: 5px;
+
+  padding: 6px;
+}
+
+
+/* =========================
+   SLIDERS
+   ========================= */
+
+.drawing-toolbar input[type="range"] {
+  width: 100%;
+
+  cursor: pointer;
+}
+
+
+/* =========================
+   ERASE EVERYTHING
+   ========================= */
+
+.erase-all {
+  width: 100%;
+
+  margin-top: 14px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 18px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: 1px dashed #2b2420;
+
+  border-radius: 5px;
+
+  padding: 7px;
+
+  cursor: pointer;
+}
+
+.erase-all:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+
+
+/* =========================
+   PUT PEN AWAY
+   ========================= */
+
+.put-away {
+  width: 100%;
+
+  margin-top: 8px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 18px;
+
+  color: #2b2420;
+
+  background: transparent;
+
+  border: none;
+
+  padding: 5px;
+
+  cursor: pointer;
+}
+
+.put-away:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================
+   PAPER CLICK BUTTON
+   ========================= */
+
+.paper-button {
+  position: relative;
+
+  z-index: 2001;
+
+  margin-top: 25px;
+
+  font-family: "Ink Free", cursive;
+
+  font-size: 28px;
+  font-weight: normal;
+
+  color: #2b2420;
+
+  background: #d9c8be;
+
+  border: 2px solid #2b2420;
+
+  border-radius: 12px;
+
+  padding: 10px 32px;
+
+  cursor: pointer;
+
+  box-shadow:
+    3px 3px 0 #2b2420;
+
+  transform: rotate(-1deg);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+/* Extra hand-drawn line */
+
+.paper-button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 4px;
+  left: 4px;
+
+  right: -5px;
+  bottom: -5px;
+
+  border: 1px solid #2b2420;
+
+  border-radius: 10px;
+
+  transform: rotate(1deg);
+
+  pointer-events: none;
+}
+
+
+/* Hover */
+
+.paper-button:hover {
+  transform: rotate(1deg) scale(1.04);
+
+  box-shadow:
+    5px 5px 0 #2b2420;
+}
+
+
+/* Press */
+
+.paper-button:active {
+  transform: rotate(-1deg) translateY(3px);
+
+  box-shadow:
+    1px 1px 0 #2b2420;
+}
+
+/* ========================================
+   TOOLBAR HEADER
+   ======================================== */
+
+.toolbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.minimize-button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  font-size: 22px;
+  color: #2b2420;
+  background: transparent;
+  border: 1px solid #2b2420;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.minimize-button:hover {
+  background: rgba(43, 36, 32, 0.08);
+}
+
+.drawing-toolbar.tools-minimized {
+  width: 200px;
+  padding: 10px 14px;
+}
+
+.drawing-toolbar.tools-minimized .toolbar-title {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  font-size: 21px;
 }
